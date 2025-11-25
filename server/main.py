@@ -7,15 +7,9 @@ from ollama import chat, ChatResponse
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/api", methods=["POST", "OPTIONS"])
+@app.route("/api", methods=["POST", "GET"])
 @cross_origin()
 def api():
-    if request.method == "OPTIONS":
-        return jsonify({}), 200
-    
-    if "pdf" not in request.files:
-        return jsonify({"error": "no file sent"}), 400
-
     pdf_file = request.files["pdf"]
     pdf_bytes = pdf_file.read()
     reader = PdfReader(io.BytesIO(pdf_bytes))

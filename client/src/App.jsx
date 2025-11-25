@@ -14,33 +14,18 @@ function App() {
 
   const fetchAPI = async (e) => {
     e.preventDefault();
-    if (!pdf) {
-      console.log("no pdf");
-      return;
-    }
 
     const formData = new FormData();
     formData.append("pdf", pdf);
     setLoading(true);
 
-    try {
-      const res = await fetch("http://localhost:5001/api", {
-        method: "POST",
-        body: formData,
-      });
+    const res = await fetch("http://localhost:5001/api", {
+      method: "POST",
+      body: formData,
+    });
 
-      if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-
-      const data = await res.json();
-      setSummary(data.message);
-    } catch (error) {
-      console.error("Error fetching API:", error);
-      setSummary(`Error: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
+    const data = await res.json();
+    setSummary(data.message);
   };
 
   return (
